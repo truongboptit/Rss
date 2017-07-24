@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:weightSum="100">
 
-    <ImageView
-        android:id="@+id/imageViewTrangChu"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_weight="35"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titleNewsTrangChu"
+        <ImageView
+            android:id="@+id/imageViewTrangChu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+           />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_weight="64"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleNewsTrangChu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="abfdsgsdfsdsfds"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descNewsTrangChu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="90dp"
+    android:layout_weight="1"
+    android:gravity="center">
+    <RadioButton
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:text="abfdsgsdfsdsfds"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/descNewsTrangChu"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:textSize="20dp"/>
+        android:layout_height="wrap_content" />
+</LinearLayout>
 </LinearLayout>

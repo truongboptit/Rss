@@ -37,15 +37,19 @@ public class TrangChu extends Fragment {
         News new1 = new News("Ánh Viên thiếu 33% giây để vào bán kết giải bơi VĐTG","s","http://img.f4.thethao.vnecdn.net/2017/07/23/a-4113-1481448034-9240-1500817996_180x108.jpg","Kình ngư số một Việt Nam ra quân không thành công khi dự giải vô địch thế giới 2017 tại Hungary.","sf");
         News new2 = new News("Man City mua xong Danilo, hoàn tất cuộc cách mạng hàng thủ","ds","http://img.f1.thethao.vnecdn.net/2017/07/23/1-2952-1500816747_180x108.jpg","Hậu vệ phải người Brazil vừa ký hợp đồng năm năm với đội chủ sân Etihad sau vụ chuyển nhượng từ Real Madrid.","sd");
         News new3 = new News("Ánh Viên thiếu 33% giây để vào bán kết giải bơi VĐTG","s","http://img.f4.thethao.vnecdn.net/2017/07/23/a-4113-1481448034-9240-1500817996_180x108.jpg","Kình ngư số một Việt Nam ra quân không thành công khi dự giải vô địch thế giới 2017 tại Hungary.","sf");
+        News new4 = new News("Man City mua xong Danilo, hoàn tất cuộc cách mạng hàng thủ","ds","http://img.f1.thethao.vnecdn.net/2017/07/23/1-2952-1500816747_180x108.jpg","Hậu vệ phải người Brazil vừa ký hợp đồng năm năm với đội chủ sân Etihad sau vụ chuyển nhượng từ Real Madrid.","sd");
+        News new5 = new News("Ánh Viên thiếu 33% giây để vào bán kết giải bơi VĐTG","s","http://img.f4.thethao.vnecdn.net/2017/07/23/a-4113-1481448034-9240-1500817996_180x108.jpg","Kình ngư số một Việt Nam ra quân không thành công khi dự giải vô địch thế giới 2017 tại Hungary.","sf");
+        News new6 = new News("Man City mua xong Danilo, hoàn tất cuộc cách mạng hàng thủ","ds","http://img.f1.thethao.vnecdn.net/2017/07/23/1-2952-1500816747_180x108.jpg","Hậu vệ phải người Brazil vừa ký hợp đồng năm năm với đội chủ sân Etihad sau vụ chuyển nhượng từ Real Madrid.","sd");
+        News new7 = new News("Ánh Viên thiếu 33% giây để vào bán kết giải bơi VĐTG","s","http://img.f4.thethao.vnecdn.net/2017/07/23/a-4113-1481448034-9240-1500817996_180x108.jpg","Kình ngư số một Việt Nam ra quân không thành công khi dự giải vô địch thế giới 2017 tại Hungary.","sf");
+
         list.add(new1);
         list.add(new2);
-        list.add(new3);
+        list.add(new3);list.add(new4);list.add(new5);list.add(new6);list.add(new7);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
-
         return rootView;
     }
 
