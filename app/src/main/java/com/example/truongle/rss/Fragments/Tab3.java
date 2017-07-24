@@ -1,4 +1,4 @@
-package com.example.truongle.rss;
+package com.example.truongle.rss.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.truongle.rss.R;
 
 /**
  * Created by TruongLe on 23/07/2017.

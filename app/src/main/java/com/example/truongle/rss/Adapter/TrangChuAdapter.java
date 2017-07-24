@@ -1,24 +1,35 @@
 package com.example.truongle.rss.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.truongle.rss.Model.News;
+import com.example.truongle.rss.Model.NewsRealmDB;
 import com.example.truongle.rss.R;
+import com.example.truongle.rss.RealmDB;
+import com.example.truongle.rss.WebViewActivity;
 
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by TruongLe on 23/07/2017.
@@ -27,6 +38,7 @@ import java.util.ArrayList;
 public class TrangChuAdapter extends RecyclerView.Adapter<TrangChuAdapter.RecyclerViewHolder> {
     ArrayList<News> listData;
     Context context;
+    Realm realm;
 
     public TrangChuAdapter(ArrayList<News> listData, Context context) {
         this.listData = listData;
@@ -41,16 +53,40 @@ public class TrangChuAdapter extends RecyclerView.Adapter<TrangChuAdapter.Recycl
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         int lastPosition  = -1;
         holder.txtTitle.setText(listData.get(position).getTitle());
         holder.txtDesc.setText(listData.get(position).getDescription());
+        //if(listData.get(position).isClickBookMart() == true){
+        //}
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listData.get(position).isClickBookMart()==false){
+                    RealmDB realmDB = new RealmDB(context);
+                    realmDB.bookMart(listData.get(position));
+                    listData.get(position).setClickBookMart(true);
+
+                }
+            }
+        });
         Glide.with(context).load(listData.get(position).getImage_link()).into(holder.imageView);
         Animation animation = AnimationUtils.loadAnimation(context,
                 (position > lastPosition) ? R.anim.up_from_bottom
                         : R.anim.down_from_top);
         holder.itemView.startAnimation(animation);
         lastPosition = position;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String link = listData.get(position).getLink();
+                Intent intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra("link", link);
+                context.startActivity(intent);
+
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -59,12 +95,14 @@ public class TrangChuAdapter extends RecyclerView.Adapter<TrangChuAdapter.Recycl
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtTitle, txtDesc;
         ImageView imageView;
+        CheckBox checkBox;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.titleNewsTrangChu);
             txtDesc = (TextView) itemView.findViewById(R.id.descNewsTrangChu);
             imageView = (ImageView) itemView.findViewById(R.id.imageViewTrangChu);
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkboxTrangChu);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         }
 

@@ -1,40 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v4.widget.DrawerLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.truongle.rss.MainActivity"
-    android:id="@+id/tab_layout">
-<android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/appBarLayout"
-    >
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:id="@+id/textViewToolBar"
-    android:text="VnExpress"
-    android:textSize="20dp"
-    android:textColor="#ff00"/>
-    </android.support.v7.widget.Toolbar>
-    <android.support.design.widget.TabLayout
+    android:id="@+id/drawerLayout">
+   <include
+       layout = "@layout/tab_layout"
+       android:layout_height="match_parent"
+       android:layout_width="match_parent"/>
+    <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tabs"></android.support.design.widget.TabLayout>
-
-</android.support.design.widget.AppBarLayout>
-
-<android.support.v4.view.ViewPager
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/viewPaper"
-    android:layout_below ="@+id/toolbar"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
-</android.support.design.widget.CoordinatorLayout>
+        android:id="@+id/navigationView"
+        android:layout_gravity="start"
+        app:menu = "@menu/navigation_menu"></android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

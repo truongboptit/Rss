@@ -1,17 +1,16 @@
 package com.example.truongle.rss.Model;
 
-import java.io.Serializable;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by TruongLe on 23/07/2017.
+ * Created by TruongLe on 24/07/2017.
  */
 
-public class News extends RealmObject implements Serializable {
+public class NewsRealmDB extends RealmObject {
     @PrimaryKey
     private int id;
+    private String title, link, image_link, description, date;
 
     public int getId() {
         return id;
@@ -19,17 +18,6 @@ public class News extends RealmObject implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    private String title, link, image_link, description, date;
-    private boolean isClickBookMart = false;
-
-    public boolean isClickBookMart() {
-        return isClickBookMart;
-    }
-
-    public void setClickBookMart(boolean clickBookMart) {
-        isClickBookMart = clickBookMart;
     }
 
     public String getTitle() {
@@ -72,16 +60,17 @@ public class News extends RealmObject implements Serializable {
         this.date = date;
     }
 
-    public News(String title, String link, String image_link, String description, String date) {
+    public NewsRealmDB() {
 
+    }
+
+    public NewsRealmDB(int id, String title, String link, String image_link, String description, String date) {
+
+        this.id = id;
         this.title = title;
         this.link = link;
         this.image_link = image_link;
         this.description = description;
         this.date = date;
-    }
-
-    public News() {
-
     }
 }
