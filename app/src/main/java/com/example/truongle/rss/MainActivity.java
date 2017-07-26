@@ -16,9 +16,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.truongle.rss.Fragments.Tab2;
-import com.example.truongle.rss.Fragments.Tab3;
-import com.example.truongle.rss.Fragments.TrangChu;
+import com.example.truongle.rss.fragments.Tab2;
+import com.example.truongle.rss.fragments.Tab3;
+import com.example.truongle.rss.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    TrangChu trangChu = new TrangChu();
+                    HomeFragment trangChu = new HomeFragment();
                     return trangChu;
                 case 1:
                     Tab2 tab2 = new Tab2();

@@ -1,11 +1,8 @@
-package com.example.truongle.rss.Adapter;
+package com.example.truongle.rss.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,33 +11,27 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.truongle.rss.Model.News;
-import com.example.truongle.rss.Model.NewsRealmDB;
+import com.example.truongle.rss.model.News;
 import com.example.truongle.rss.R;
 import com.example.truongle.rss.RealmDB;
 import com.example.truongle.rss.WebViewActivity;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by TruongLe on 23/07/2017.
  */
 
-public class TrangChuAdapter extends RecyclerView.Adapter<TrangChuAdapter.RecyclerViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.RecyclerViewHolder> {
     ArrayList<News> listData;
     Context context;
     Realm realm;
 
-    public TrangChuAdapter(ArrayList<News> listData, Context context) {
+    public HomeAdapter(ArrayList<News> listData, Context context) {
         this.listData = listData;
         this.context = context;
     }

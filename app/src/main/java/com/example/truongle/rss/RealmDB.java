@@ -2,10 +2,7 @@ package com.example.truongle.rss;
 
 import android.content.Context;
 
-import com.example.truongle.rss.Model.News;
-import com.example.truongle.rss.Model.NewsRealmDB;
-
-import java.util.ArrayList;
+import com.example.truongle.rss.model.News;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

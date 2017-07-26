@@ -1,4 +1,4 @@
-package com.example.truongle.rss.Fragments;
+package com.example.truongle.rss.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

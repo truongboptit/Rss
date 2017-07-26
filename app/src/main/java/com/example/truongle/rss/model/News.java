@@ -1,4 +1,4 @@
-package com.example.truongle.rss.Model;
+package com.example.truongle.rss.model;
 
 import java.io.Serializable;
 
