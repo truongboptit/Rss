@@ -2,7 +2,7 @@ package com.example.truongle.rss;
 
 import android.content.Context;
 
-import com.example.truongle.rss.model.News;
+import com.example.truongle.rss.home.model.News;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

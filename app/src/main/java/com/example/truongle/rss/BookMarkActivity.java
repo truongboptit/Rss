@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.truongle.rss.adapter.HomeAdapter;
-import com.example.truongle.rss.model.News;
+import com.example.truongle.rss.home.model.News;
 
 import java.util.ArrayList;
 

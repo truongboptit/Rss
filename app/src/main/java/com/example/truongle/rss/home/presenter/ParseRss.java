@@ -1,6 +1,6 @@
-package com.example.truongle.rss;
+package com.example.truongle.rss.home.presenter;
 
-import com.example.truongle.rss.model.News;
+import com.example.truongle.rss.home.model.News;
 
 import org.xmlpull.v1.XmlPullParser;
 

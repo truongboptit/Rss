@@ -1,20 +1,12 @@
-package com.example.truongle.rss.fragments;
+package com.example.truongle.rss.home.presenter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.truongle.rss.adapter.HomeAdapter;
-import com.example.truongle.rss.model.News;
-import com.example.truongle.rss.ParseRss;
-import com.example.truongle.rss.R;
+import com.example.truongle.rss.home.model.News;
+import com.example.truongle.rss.home.view.ViewHome;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -29,51 +21,30 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by TruongLe on 23/07/2017.
+ * Created by TruongLe on 26/07/2017.
  */
 
-public class HomeFragment extends Fragment {
-
-     ArrayList<News> list = new ArrayList<>();
-    RecyclerView mRecyclerView;
-    HomeAdapter adapter;
+public class PresenterLogicHome implements PresenterImplHome{
+    ViewHome viewHome;
+    RecyclerView recyclerView;
+    Context context;
     private XmlPullParserFactory xmlFactoryObject;
-    private String finalUrl="http://vnexpress.net/rss/tin-moi-nhat.rss";
-    ProgressDialog progressDialog;
-    View footer_view;
-    boolean isLoading = false;
-    @Override
-    public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
-         View rootView = inflater.inflate(R.layout.trang_chu, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewTrangChu);
-        progressDialog = new ProgressDialog(getContext());
 
-        LayoutInflater inflater1 = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        footer_view = inflater1.inflate(R.layout.footer_view, null);
-        new AsyncTaskRss().execute(finalUrl);
-//        PresenterLogicHome presenterLogicHome = new PresenterLogicHome(this,getContext());
-//        presenterLogicHome.onProcess(mRecyclerView, finalUrl);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        return rootView;
+    public PresenterLogicHome(ViewHome viewHome,RecyclerView recyclerView, Context context) {
+        this.viewHome = viewHome;
+        this.recyclerView = recyclerView;
+        this.context = context;
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onProcess(String url) {
+        new AsyncTaskRss().execute(url);
     }
-
-
-
-    public class AsyncTaskRss extends AsyncTask<String, Void, ArrayList<News>>{
+    public class AsyncTaskRss extends AsyncTask<String, Void, ArrayList<News>> {
 
         @Override
         protected void onPreExecute() {
-           progressDialog.setMessage("Load...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+           viewHome.startDialog();
         }
 
         @Override
@@ -113,15 +84,14 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-         return list;
+            return list;
         }
 
         @Override
         protected void onPostExecute(ArrayList<News> newses) {
-            adapter = new HomeAdapter(newses, getContext());
-            mRecyclerView.setAdapter(adapter);
-            progressDialog.dismiss();
+            HomeAdapter adapter = new HomeAdapter(newses, context);
+            recyclerView.setAdapter(adapter);
+           viewHome.stopDialog();
         }
     }
-
 }

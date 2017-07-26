@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.truongle.rss.model.News;
+import com.example.truongle.rss.home.model.News;
 import com.example.truongle.rss.R;
 import com.example.truongle.rss.RealmDB;
-import com.example.truongle.rss.WebViewActivity;
+import com.example.truongle.rss.webView.view.WebViewActivity;
 
 import java.util.ArrayList;
 

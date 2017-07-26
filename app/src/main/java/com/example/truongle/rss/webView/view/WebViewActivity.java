@@ -1,4 +1,4 @@
-package com.example.truongle.rss;
+package com.example.truongle.rss.webView.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,7 +12,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-public class WebViewActivity extends AppCompatActivity {
+import com.example.truongle.rss.R;
+import com.example.truongle.rss.webView.presenter.PresenterLogicWebView;
+import com.example.truongle.rss.webView.view.ViewWebView;
+
+public class WebViewActivity extends AppCompatActivity implements ViewWebView{
 
     WebView webView;
     ProgressDialog progressDialog;
@@ -32,31 +36,29 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait a few minute...");
-        progressDialog.show();
-        progressDialog.setCancelable(false);
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
         webView = (WebView) findViewById(R.id.WebView);
-        if(link!= null){
-            webView.setWebViewClient(loadWebViewClient);
-            webView.loadUrl(link);
-        }
 
-
+        PresenterLogicWebView presenterLogicWebView = new PresenterLogicWebView(this);
+        presenterLogicWebView.onLoadWebView(webView, link);
     }
-    private WebViewClient loadWebViewClient = new WebViewClient(){
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-            super.onReceivedError(view, request, error);
-            progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), "Load that bai", Toast.LENGTH_LONG).show();
-        }
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            progressDialog.dismiss();
-        }
-    };
+
+    @Override
+    public void onShowDialog() {
+        progressDialog.setMessage("Please wait a few minute...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onDismissDialog() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void onLoadPageFail() {
+        Toast.makeText(getApplicationContext(), "Load that bai", Toast.LENGTH_LONG).show();
+    }
 }

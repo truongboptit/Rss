@@ -18,7 +18,7 @@ import android.view.View;
 
 import com.example.truongle.rss.fragments.Tab2;
 import com.example.truongle.rss.fragments.Tab3;
-import com.example.truongle.rss.fragments.HomeFragment;
+import com.example.truongle.rss.home.view.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 

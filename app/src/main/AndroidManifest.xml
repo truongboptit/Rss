@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BookMarkActivity" />
-        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".webView.view.WebViewActivity"></activity>
     </application>
 
 </manifest>
