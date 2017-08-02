@@ -16,9 +16,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.truongle.rss.fragments.Tab2;
-import com.example.truongle.rss.fragments.Tab3;
+import com.example.truongle.rss.fragments.NewsFragment;
+import com.example.truongle.rss.fragments.WorldNewsFragment;
 import com.example.truongle.rss.home.view.HomeFragment;
+import com.example.truongle.rss.weather.view.WeatherActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if(id == R.id.nav_bookmark){
             startActivity(new Intent(this, BookMarkActivity.class));
+        }else if(id == R.id.nav_weather){
+            startActivity(new Intent(this, WeatherActivity.class));
         }
         drawerLayout.closeDrawer(Gravity.START);
         return true;
@@ -82,10 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     HomeFragment trangChu = new HomeFragment();
                     return trangChu;
                 case 1:
-                    Tab2 tab2 = new Tab2();
+                    NewsFragment tab2 = new NewsFragment();
                     return tab2;
                 case 2:
-                    Tab3 tab3 = new Tab3();
+                    WorldNewsFragment tab3 = new WorldNewsFragment();
                     return tab3;
 
                 default:
@@ -105,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case 0:
                     return "Tin Mới";
                 case 1:
-                    return "Tab2";
+                    return "Thời Sự";
                 case 2:
-                    return "Tab3";
+                    return "Thế Giới";
 
             }
             return null;

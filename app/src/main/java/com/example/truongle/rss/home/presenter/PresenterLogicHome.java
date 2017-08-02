@@ -1,8 +1,13 @@
 package com.example.truongle.rss.home.presenter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.ListView;
 
 import com.example.truongle.rss.adapter.HomeAdapter;
 import com.example.truongle.rss.home.model.News;
@@ -29,6 +34,7 @@ public class PresenterLogicHome implements PresenterImplHome{
     RecyclerView recyclerView;
     Context context;
     private XmlPullParserFactory xmlFactoryObject;
+    ArrayList<News> listNews = new ArrayList<>();
 
     public PresenterLogicHome(ViewHome viewHome,RecyclerView recyclerView, Context context) {
         this.viewHome = viewHome;
@@ -39,7 +45,29 @@ public class PresenterLogicHome implements PresenterImplHome{
     @Override
     public void onProcess(String url) {
         new AsyncTaskRss().execute(url);
+
     }
+
+    @Override
+    public void onRefresh(RecyclerView mRecyclerView, final LinearLayoutManager layoutManager, final SwipeRefreshLayout refreshLayout) {
+
+        refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewHome.onSwipeRefreshLayout();
+              //  refreshLayout.setRefreshing(false);
+            }
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                refreshLayout.setEnabled(layoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
+    }
+
     public class AsyncTaskRss extends AsyncTask<String, Void, ArrayList<News>> {
 
         @Override

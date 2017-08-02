@@ -2,6 +2,7 @@ package com.example.truongle.rss.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.truongle.rss.home.model.News;
@@ -30,14 +33,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.RecyclerViewHo
     ArrayList<News> listData;
     Context context;
     Realm realm;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+    private int lastVisibleItem, totalItemCount;
+    private int visibleThreshold = 5;
+    private boolean isLoading;
 
-    public HomeAdapter(ArrayList<News> listData, Context context) {
+    public HomeAdapter( ArrayList<News> listData, final Context context) {
         this.listData = listData;
         this.context = context;
+
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemview = inflater.inflate(R.layout.trang_chu_row, parent, false);
         return new RecyclerViewHolder(itemview);
@@ -45,6 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.RecyclerViewHo
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+
         int lastPosition  = -1;
         holder.txtTitle.setText(listData.get(position).getTitle());
         holder.txtDesc.setText(listData.get(position).getDescription());
@@ -79,10 +90,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.RecyclerViewHo
             }
         });
     }
+
     @Override
     public int getItemCount() {
-        return listData.size();
+        return listData == null ? 0 : listData.size();
     }
+
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtTitle, txtDesc;
         ImageView imageView;
@@ -96,7 +110,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.RecyclerViewHo
             checkBox = (CheckBox) itemView.findViewById(R.id.checkboxTrangChu);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         }
-
     }
 
     @Override
