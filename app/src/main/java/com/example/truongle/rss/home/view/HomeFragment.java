@@ -57,17 +57,28 @@ public class HomeFragment extends Fragment implements ViewHome,AsyncResponse{
         presenterLogicHome.getData(finalUrl);
         //swipeRefreshLayout
 
+
+        presenterLogicHome.onProcess(finalUrl);
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                //check top screen
                 refreshLayout.setEnabled(layoutManager.findFirstCompletelyVisibleItemPosition() == 0);
                 presenterLogicHome.onRefresh(mRecyclerView,layoutManager,refreshLayout);
+
+                //check bottom screen
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                if (!isLoading&&pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    presenterLogicHome.loadMore2();
+                    isLoading = true;
+                }
             }
         });
 
-        presenterLogicHome.onProcess(finalUrl);
-        presenterLogicHome.loadMore(mRecyclerView);
 
 
         return rootView;
@@ -111,7 +122,7 @@ public class HomeFragment extends Fragment implements ViewHome,AsyncResponse{
                         temp.add(listData.get(i));
                              }
                     adapter.notifyDataSetChanged();
-                    adapter.setLoaded();
+                    isLoading= false;
 
                 }
             }, 5000);
@@ -129,6 +140,8 @@ public class HomeFragment extends Fragment implements ViewHome,AsyncResponse{
 
     @Override
     public void getDataFromAsync(ArrayList<News> news) {
+     if(listData.size()<25)
         listData.addAll(news);
+
     }
 }

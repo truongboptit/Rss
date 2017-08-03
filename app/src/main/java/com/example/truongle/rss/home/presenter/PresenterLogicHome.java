@@ -60,22 +60,29 @@ public class PresenterLogicHome implements PresenterImplHome{
 
     }
 
-    public void loadMore(RecyclerView mRecyclerView){
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = linearLayoutManager.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
-                if (!isLoading&&pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    viewHome.onLoadMore(adapter,temp);
-                    isLoading = true;
-                }
-            }
-        });
+    public void loadMore2(){
+        viewHome.onLoadMore(adapter,temp);
     }
+//    public void loadMore(RecyclerView mRecyclerView){
+//        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                int visibleItemCount = linearLayoutManager.getChildCount();
+//                int totalItemCount = linearLayoutManager.getItemCount();
+//                int pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
+//                if (!isLoading&&pastVisibleItems + visibleItemCount >= totalItemCount) {
+//                    viewHome.onLoadMore(adapter,temp);
+//                    isLoading = true;
+//                }
+//            }
+//        });
+//    }
+    public void setLoaded() {
+    isLoading = false;
+}
+
     @Override
     public void onRefresh(RecyclerView mRecyclerView, final LinearLayoutManager layoutManager, final SwipeRefreshLayout refreshLayout) {
 
@@ -99,7 +106,6 @@ public class PresenterLogicHome implements PresenterImplHome{
     public void getData(String url){
         try {
             listNews  = new AsyncTaskRss().execute(url).get();
-            for(int i=0;i<listNews.size();i++) Log.d("AAA", "getData: "+listNews.get(i).getTitle());
             delegate.getDataFromAsync(listNews);
         } catch (InterruptedException e) {
             e.printStackTrace();

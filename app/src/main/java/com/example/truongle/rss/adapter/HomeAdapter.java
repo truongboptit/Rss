@@ -45,9 +45,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
 
     }
-    public void setLoaded() {
-        isLoading = false;
-    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {

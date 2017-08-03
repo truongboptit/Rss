@@ -69,7 +69,7 @@ public class NewsFragment extends Fragment implements ViewHome, AsyncResponse{
         });
 
         presenterLogicHome.onProcess(finalUrl);
-        presenterLogicHome.loadMore(mRecyclerView);
+       // presenterLogicHome.loadMore(mRecyclerView);
         return rootView;
     }
     @Override
@@ -109,7 +109,7 @@ public class NewsFragment extends Fragment implements ViewHome, AsyncResponse{
                         temp.add(listData.get(i));
                     }
                     adapter.notifyDataSetChanged();
-                    adapter.setLoaded();
+                    presenterLogicHome.setLoaded();
                 }
             }, 5000);
         } else {
