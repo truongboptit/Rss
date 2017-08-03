@@ -33,7 +33,7 @@ public class BookMarkActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewBookMark);
         RealmDB realmDB = new RealmDB(BookMarkActivity.this);
         ArrayList<News> list = new ArrayList<>(realmDB.getAllNews());
-        HomeAdapter adapter = new HomeAdapter(list, BookMarkActivity.this);
+        HomeAdapter adapter = new HomeAdapter(recyclerView,list, BookMarkActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 

@@ -1,5 +1,7 @@
 package com.example.truongle.rss.home.presenter;
 
+import android.util.Log;
+
 import com.example.truongle.rss.home.model.News;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,12 +18,36 @@ public class ParseRss {
     private String image;
     private String description ;
     private String date;
-
+    private String urlString = null;
     private ArrayList<News> list;
     public boolean insideItem = false;
 
-    public ParseRss() {
+    public String getTitle() {
+        return title;
+    }
 
+    public String getLink() {
+        return link;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public ParseRss(String urlString) {
+        this.urlString = urlString;
+    }
+
+    public ArrayList<News> getList() {
+        return list;
     }
 
     public ArrayList<News> parseXMLAndStoreIt(XmlPullParser myParser) {
@@ -54,16 +80,10 @@ public class ParseRss {
                             String description_tag = myParser.nextText();
                             if(description_tag!= null) {
                                 int i = description_tag.indexOf("src");
-                                int j = description_tag.indexOf("jpg");
+                                int j = description_tag.indexOf("/a");
                                 if(i>0 && j>0){
-                                    String str = description_tag.substring(i+5, j+3);
+                                    String str = description_tag.substring(i+5, j-4);
                                     image = str;
-                                }
-
-                                int m= description_tag.indexOf("/br>");
-                                if(m>0) {
-                                    String str_desc  = description_tag.substring(m+4);
-                                    description = str_desc;
                                 }
                             }
                         }
@@ -83,6 +103,8 @@ public class ParseRss {
         catch (Exception e) {
             e.printStackTrace();
         }
-    return list;
+        return list;
     }
+
+
 }

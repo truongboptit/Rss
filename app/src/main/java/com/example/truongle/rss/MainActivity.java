@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.example.truongle.rss.fragments.NewsFragment;
 import com.example.truongle.rss.fragments.WorldNewsFragment;
+import com.example.truongle.rss.home.presenter.PresenterLogicHome;
 import com.example.truongle.rss.home.view.HomeFragment;
 import com.example.truongle.rss.weather.view.WeatherActivity;
 
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,8 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.truongle.rss.R;
+import com.example.truongle.rss.adapter.HomeAdapter;
+import com.example.truongle.rss.home.model.News;
 import com.example.truongle.rss.home.presenter.PresenterLogicHome;
 import com.example.truongle.rss.home.view.ViewHome;
+
+import java.util.ArrayList;
 
 /**
  * Created by TruongLe on 23/07/2017.
@@ -32,6 +36,7 @@ public class WorldNewsFragment extends Fragment implements ViewHome{
 
     PresenterLogicHome presenterLogicHome;
     private SwipeRefreshLayout refreshLayout;
+    ArrayList<News> temp = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,7 +84,7 @@ public class WorldNewsFragment extends Fragment implements ViewHome{
     }
 
     @Override
-    public void onLoadMore() {
+    public void onLoadMore(HomeAdapter adapter, ArrayList<News> temp)  {
 
     }
 
