@@ -7,8 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.truongle.rss.adapter.HomeAdapter;
 import com.example.truongle.rss.home.model.News;
@@ -28,70 +26,44 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by TruongLe on 26/07/2017.
+ * Created by TruongLe on 08/08/2017.
  */
 
 public class PresenterLogicHome implements PresenterImplHome{
+
     ViewHome viewHome;
-    RecyclerView recyclerView;
-    Context context;
+    RecyclerView mRecyclerView;
     HomeAdapter adapter;
-    private XmlPullParserFactory xmlFactoryObject;
+    Context context;
+    ArrayList<News> list = new ArrayList<>();
     ArrayList<News> listNews = new ArrayList<>();
-    ArrayList<News> temp = new ArrayList<>();
+    ArrayList<News> listLoadMore = new ArrayList<>();
+    private XmlPullParserFactory xmlFactoryObject;
     public AsyncResponse delegate = null;
 
-    private int lastVisibleItem, totalItemCount;
-    private int visibleThreshold = 5;
-    private boolean isLoading;
-
-    public PresenterLogicHome(ViewHome viewHome,RecyclerView recyclerView, Context context) {
+    public PresenterLogicHome(ViewHome viewHome, RecyclerView mRecyclerView, Context context) {
         this.viewHome = viewHome;
-        this.recyclerView = recyclerView;
+        this.mRecyclerView = mRecyclerView;
         this.context = context;
     }
 
     @Override
     public void onProcess(String url) {
-
         new AsyncTaskRss().execute(url);
-
-        //check load more
-
     }
 
-    public void loadMore2(){
-        viewHome.onLoadMore(adapter,temp);
+    public void loadMore(){
+        viewHome.onLoadMore(adapter,listLoadMore);
     }
-//    public void loadMore(RecyclerView mRecyclerView){
-//        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int visibleItemCount = linearLayoutManager.getChildCount();
-//                int totalItemCount = linearLayoutManager.getItemCount();
-//                int pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
-//                if (!isLoading&&pastVisibleItems + visibleItemCount >= totalItemCount) {
-//                    viewHome.onLoadMore(adapter,temp);
-//                    isLoading = true;
-//                }
-//            }
-//        });
-//    }
-    public void setLoaded() {
-    isLoading = false;
-}
-
     @Override
-    public void onRefresh(RecyclerView mRecyclerView, final LinearLayoutManager layoutManager, final SwipeRefreshLayout refreshLayout) {
-
+    public void onRefresh(RecyclerView recyclerView, final SwipeRefreshLayout refreshLayout) {
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         refreshLayout.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 viewHome.onSwipeRefreshLayout();
-              //  refreshLayout.setRefreshing(false);
+                //  refreshLayout.setRefreshing(false);
             }
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,18 +84,19 @@ public class PresenterLogicHome implements PresenterImplHome{
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        delegate.getDataFromAsync(listNews);
+       // delegate.getDataFromAsync(listNews);
     }
+    public class AsyncTaskRss extends AsyncTask<String , Void , ArrayList<News>> {
 
 
-
-    public class AsyncTaskRss extends AsyncTask<String , Void , ArrayList<News>>{
-
+        @Override
+        protected void onPreExecute() {
+            viewHome.startDialog();
+        }
 
         @Override
         protected ArrayList<News> doInBackground(String... params) {
             String urlString = params[0];
-            ArrayList<News> list = new ArrayList<>();
             URL url = null;
             try {
                 url = new URL(urlString);
@@ -161,15 +134,17 @@ public class PresenterLogicHome implements PresenterImplHome{
 
         @Override
         protected void onPostExecute(ArrayList<News> newses) {
+            listLoadMore.clear();
+            for(int i=0;i<10;i++){
 
-                temp.clear();
-                for (int i = 0; i < 10; i++)
-                    temp.add(newses.get(i));
-                adapter = new HomeAdapter(recyclerView, temp, context);
-                recyclerView.setAdapter(adapter);
+                listLoadMore.add(newses.get(i));
+                adapter = new HomeAdapter(mRecyclerView,listLoadMore,context);
+                mRecyclerView.setAdapter(adapter);
                 viewHome.stopDialog();
             }
 
 
+        }
     }
+
 }

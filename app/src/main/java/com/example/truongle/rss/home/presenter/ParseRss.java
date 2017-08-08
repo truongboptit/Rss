@@ -5,7 +5,11 @@ import android.util.Log;
 import com.example.truongle.rss.home.model.News;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +23,7 @@ public class ParseRss {
     private String description ;
     private String date;
     private String urlString = null;
+    private XmlPullParserFactory xmlFactoryObject;
     private ArrayList<News> list;
     public boolean insideItem = false;
 
@@ -80,11 +85,15 @@ public class ParseRss {
                             String description_tag = myParser.nextText();
                             if(description_tag!= null) {
                                 int i = description_tag.indexOf("src");
-                                int j = description_tag.indexOf("/a");
+                                int j = description_tag.indexOf("</a>");
+                                if(i==0||j==0)
+                                Log.d("AAA", ""+i+"  "+j);
                                 if(i>0 && j>0){
-                                    String str = description_tag.substring(i+5, j-4);
+                                    String str = description_tag.substring(i+5, j-3);
                                     image = str;
                                 }
+                                int k= description_tag.indexOf("/br");
+                                if(k>0)  description = description_tag.substring(k+4);
                             }
                         }
                     }
@@ -103,8 +112,42 @@ public class ParseRss {
         catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+return list;
     }
 
+    public void fetchXML(){
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
 
+                try {
+                    URL url = new URL(urlString);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                    conn.setReadTimeout(10000 /* milliseconds */);
+                    conn.setConnectTimeout(15000 /* milliseconds */);
+                    conn.setRequestMethod("GET");
+                    conn.setDoInput(true);
+
+                    // Starts the query
+                    conn.connect();
+                    InputStream stream = conn.getInputStream();
+
+                    xmlFactoryObject = XmlPullParserFactory.newInstance();
+                    XmlPullParser myparser = xmlFactoryObject.newPullParser();
+
+                    myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                    myparser.setInput(stream, null);
+
+                    parseXMLAndStoreIt(myparser);
+                    stream.close();
+
+                }
+
+                catch (Exception e) {
+                }
+            }
+        });
+        thread.start();
+    }
 }
