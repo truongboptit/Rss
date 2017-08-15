@@ -18,11 +18,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.truongle.rss.fragments.NewsFragment;
 import com.example.truongle.rss.fragments.WorldNewsFragment;
 import com.example.truongle.rss.home.presenter.PresenterLogicHome;
 import com.example.truongle.rss.home.view.HomeFragment;
+import com.example.truongle.rss.util.CheckInternet;
 import com.example.truongle.rss.weather.model.current_model.Main;
 import com.example.truongle.rss.weather.view.WeatherActivity;
 
@@ -40,35 +42,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String fontStyle = "";
     String bigStyle="trang_chu_row_fullscreen";
     String smallStyle = "trang_chu_row";
+    public static final String TAG ="AAA";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPaper = (ViewPager) findViewById(R.id.viewPaper);
-        mViewPaper.setAdapter(mSectionsPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPaper);
+        if(CheckInternet.isNetworkConnected(getApplicationContext())) {
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            mViewPaper = (ViewPager) findViewById(R.id.viewPaper);
+            mViewPaper.setAdapter(mSectionsPagerAdapter);
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPaper);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(android.R.drawable.ic_menu_sort_by_size);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.START);
-            }
-        });
-        navigationView.setNavigationItemSelectedListener(this);
-        fontStyle = getPreferences();
-        if(fontStyle.equals(""))
-        savePreferences(smallStyle);
-       // getPreferences();
-
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+            navigationView = (NavigationView) findViewById(R.id.navigationView);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(android.R.drawable.ic_menu_sort_by_size);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(Gravity.START);
+                }
+            });
+            navigationView.setNavigationItemSelectedListener(this);
+            fontStyle = getPreferences();
+            if (fontStyle.equals(""))
+                savePreferences(smallStyle);
+            // getPreferences();
+        }
+        else{
+            Toast.makeText(this, "Please check internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getPreferences() {

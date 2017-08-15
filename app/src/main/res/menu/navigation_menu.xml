@@ -4,16 +4,17 @@
 <item
     android:id="@+id/nav_bookmark"
     android:title="BookMark"
+    android:icon="@mipmap/ic_bookmark_black_24dp"
     />
-    <item android:title="Che do xem">
+    <item android:title="Mode View">
         <menu>
             <item
                 android:id="@+id/big"
                 android:icon="@mipmap/ic_launcher_round"
-                android:title="Big" />
+                android:title="Big Font" />
             <item
                 android:id="@+id/small"
-                android:title="Small"
+                android:title="Small Font"
                 android:icon="@mipmap/ic_launcher"/>
         </menu>
 
@@ -21,5 +22,6 @@
     <item
         android:id="@+id/nav_weather"
         android:title="Weather"
+        android:icon="@drawable/iconweather"
         />
 </menu>
