@@ -1,9 +1,7 @@
 package com.example.truongle.rss.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,12 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.truongle.rss.R;
-import com.example.truongle.rss.adapter.HomeAdapter;
 import com.example.truongle.rss.home.model.News;
-import com.example.truongle.rss.home.presenter.AsyncResponse;
 import com.example.truongle.rss.home.presenter.PresenterLogicHome;
 import com.example.truongle.rss.home.view.ViewHome;
 
@@ -27,7 +22,7 @@ import java.util.ArrayList;
  * Created by TruongLe on 23/07/2017.
  */
 
-public class WorldNewsFragment extends Fragment implements ViewHome, AsyncResponse{
+public class WorldNewsFragment extends Fragment implements ViewHome{
     RecyclerView mRecyclerView;
     private String finalUrl="http://vnexpress.net/rss/the-gioi.rss";
     ProgressDialog progressDialog;
@@ -51,10 +46,8 @@ public class WorldNewsFragment extends Fragment implements ViewHome, AsyncRespon
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        presenterLogicHome = new PresenterLogicHome(this, mRecyclerView, getContext());
-        //get data
-        presenterLogicHome.delegate= this;
-        presenterLogicHome.getData(finalUrl);
+        presenterLogicHome = new PresenterLogicHome(this, mRecyclerView, getContext(),getActivity());
+
         //swipeRefreshLayout
 
 
@@ -69,13 +62,6 @@ public class WorldNewsFragment extends Fragment implements ViewHome, AsyncRespon
                 presenterLogicHome.onRefresh(mRecyclerView,refreshLayout);
 
                 //check bottom screen
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-                if (!isLoading&&pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    presenterLogicHome.loadMore();
-                    isLoading = true;
-                }
             }
         });
         return rootView;
@@ -98,43 +84,10 @@ public class WorldNewsFragment extends Fragment implements ViewHome, AsyncRespon
         progressDialog.dismiss();
     }
 
-    @Override
-    public void onLoadMore(final HomeAdapter adapter, final ArrayList<News> temp)  {
-        if(temp.size()<listData.size()){
-            // if (temp.size() <= 20) {
-            temp.add(null);
-            adapter.notifyItemInserted(temp.size() - 1);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    temp.remove(temp.size() - 1);
-                    adapter.notifyItemRemoved(temp.size());
-
-                    //Generating more data
-                    int index = temp.size();
-                    int end = ((index + 10)<listData.size())?(index+10):listData.size();
-                    for (int i = index; i < end; i++) {
-                        temp.add(listData.get(i));
-                    }
-                    adapter.notifyDataSetChanged();
-                    isLoading= false;
-
-                }
-            }, 5000);
-        } else {
-            Toast.makeText(getContext(), "Loading data completed", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     public void onSwipeRefreshLayout() {
         presenterLogicHome.onProcess(finalUrl);
         refreshLayout.setRefreshing(false);
-    }
-    @Override
-    public void getDataFromAsync(ArrayList<News> news) {
-        if(listData.size()<25)
-            listData.addAll(news);
-
     }
 }

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <item
     android:id="@+id/nav_bookmark"
     android:title="BookMark"
     />
+    <item android:title="Che do xem">
+        <menu>
+            <item
+                android:id="@+id/big"
+                android:icon="@mipmap/ic_launcher_round"
+                android:title="Big" />
+            <item
+                android:id="@+id/small"
+                android:title="Small"
+                android:icon="@mipmap/ic_launcher"/>
+        </menu>
+
+    </item>
     <item
         android:id="@+id/nav_weather"
         android:title="Weather"

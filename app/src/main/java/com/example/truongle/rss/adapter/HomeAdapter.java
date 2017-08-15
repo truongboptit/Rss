@@ -2,8 +2,11 @@ package com.example.truongle.rss.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,8 @@ import com.example.truongle.rss.RealmDB;
 import com.example.truongle.rss.home.view.ViewHome;
 import com.example.truongle.rss.webView.view.WebViewActivity;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -36,21 +41,28 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Realm realm;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+    public static final String TAG = "AAA";
 
     private int lastVisibleItem, totalItemCount;
     private int visibleThreshold = 5;
     private boolean isLoading;
-    public HomeAdapter( RecyclerView recyclerView, ArrayList<News> listData, final Context context) {
+    String fontStyle;
+    public HomeAdapter( RecyclerView recyclerView, ArrayList<News> listData, final Context context, String fontStyle) {
         this.listData = listData;
         this.context = context;
-
+        this.fontStyle = fontStyle;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemview = inflater.inflate(R.layout.trang_chu_row, parent, false);
+            View itemview = null;
+            if(fontStyle.equals("trang_chu_row_fullscreen")){
+         itemview = inflater.inflate(R.layout.trang_chu_row_fullscreen, parent, false);}
+            else{
+                itemview = inflater.inflate(R.layout.trang_chu_row, parent, false);
+            }
         return new NewsViewHolder(itemview);
         }else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_view, parent, false);

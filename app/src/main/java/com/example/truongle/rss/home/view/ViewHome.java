@@ -12,6 +12,5 @@ import java.util.ArrayList;
 public interface ViewHome {
     void startDialog();
     void stopDialog();
-    void onLoadMore(HomeAdapter adapter, ArrayList<News> list);
     void onSwipeRefreshLayout();
 }

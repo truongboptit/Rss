@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "78757193838",
+    "firebase_url": "https://rssapp-9b7d0.firebaseio.com",
+    "project_id": "rssapp-9b7d0",
+    "storage_bucket": "rssapp-9b7d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78757193838:android:c69c9eeef8b95b75",
+        "android_client_info": {
+          "package_name": "com.example.truongle.rss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78757193838-9nb9s9u1ot25nd9b464td8jvmbn3v1m8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyOEL8fideyu_nJ_oGZgYyoFVMN4XNJsw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

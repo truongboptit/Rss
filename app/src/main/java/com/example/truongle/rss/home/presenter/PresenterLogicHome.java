@@ -1,8 +1,10 @@
 package com.example.truongle.rss.home.presenter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,22 +41,21 @@ public class PresenterLogicHome implements PresenterImplHome{
     ArrayList<News> listNews = new ArrayList<>();
     ArrayList<News> listLoadMore = new ArrayList<>();
     private XmlPullParserFactory xmlFactoryObject;
-    public AsyncResponse delegate = null;
+    FragmentActivity activity;
 
-    public PresenterLogicHome(ViewHome viewHome, RecyclerView mRecyclerView, Context context) {
+    public PresenterLogicHome(ViewHome viewHome, RecyclerView mRecyclerView, Context context, FragmentActivity activity) {
         this.viewHome = viewHome;
         this.mRecyclerView = mRecyclerView;
         this.context = context;
+        this.activity= activity;
     }
 
     @Override
     public void onProcess(String url) {
         new AsyncTaskRss().execute(url);
+
     }
 
-    public void loadMore(){
-        viewHome.onLoadMore(adapter,listLoadMore);
-    }
     @Override
     public void onRefresh(RecyclerView recyclerView, final SwipeRefreshLayout refreshLayout) {
         final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
@@ -75,17 +76,6 @@ public class PresenterLogicHome implements PresenterImplHome{
         });
     }
 
-    public void getData(String url){
-        try {
-            listNews  = new AsyncTaskRss().execute(url).get();
-            delegate.getDataFromAsync(listNews);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-       // delegate.getDataFromAsync(listNews);
-    }
     public class AsyncTaskRss extends AsyncTask<String , Void , ArrayList<News>> {
 
 
@@ -134,17 +124,19 @@ public class PresenterLogicHome implements PresenterImplHome{
 
         @Override
         protected void onPostExecute(ArrayList<News> newses) {
-            listLoadMore.clear();
-            for(int i=0;i<10;i++){
-
-                listLoadMore.add(newses.get(i));
-                adapter = new HomeAdapter(mRecyclerView,listLoadMore,context);
+            String font  = getFontNews();
+                adapter = new HomeAdapter(mRecyclerView,newses,context, font);
                 mRecyclerView.setAdapter(adapter);
                 viewHome.stopDialog();
-            }
 
 
         }
     }
 
+    private String getFontNews() {
+        SharedPreferences pre = context.getSharedPreferences("fontNews", Context.MODE_PRIVATE);
+        String font = pre.getString("font","");
+        Log.d("AAA", "getFontNews: "+font);
+        return font;
+    }
 }
