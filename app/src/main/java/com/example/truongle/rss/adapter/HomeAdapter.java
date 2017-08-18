@@ -80,6 +80,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             newsViewHolder.txtDesc.setText(listData.get(position).getDescription());
             //if(listData.get(position).isClickBookMart() == true){
             //}
+            if(listData.get(position).isClickBookMart()==true){
+                newsViewHolder.checkBox.setChecked(true);
+            }
+            else {
+                newsViewHolder.checkBox.setChecked(false);
+            }
             newsViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,10 +93,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         RealmDB realmDB = new RealmDB(context);
                         realmDB.bookMart(listData.get(position));
                         listData.get(position).setClickBookMart(true);
+                        Toast.makeText(context, "Lưu tin tức thành công", Toast.LENGTH_SHORT).show();
 
                     }
                 }
             });
+
             Glide.with(context).load(listData.get(position).getImage_link()).into(newsViewHolder.imageView);
             Animation animation = AnimationUtils.loadAnimation(context,
                     (position > lastPosition) ? R.anim.up_from_bottom
@@ -152,4 +160,5 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         super.onViewDetachedFromWindow(holder);
         holder.itemView.clearAnimation();
     }
+
 }

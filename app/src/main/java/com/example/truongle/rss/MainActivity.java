@@ -19,12 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.truongle.rss.fragments.NewsFragment;
 import com.example.truongle.rss.fragments.WorldNewsFragment;
 import com.example.truongle.rss.home.presenter.PresenterLogicHome;
 import com.example.truongle.rss.home.view.HomeFragment;
 import com.example.truongle.rss.util.CheckInternet;
+import com.example.truongle.rss.util.DataPreferences;
 import com.example.truongle.rss.weather.model.current_model.Main;
 import com.example.truongle.rss.weather.view.WeatherActivity;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String bigStyle="trang_chu_row_fullscreen";
     String smallStyle = "trang_chu_row";
     public static final String TAG ="AAA";
+    ToggleButton toggleButton;
+    String isCheckNotification="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,28 +72,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             navigationView.setNavigationItemSelectedListener(this);
-            fontStyle = getPreferences();
+
+
+            fontStyle = DataPreferences.getPreferences(getApplicationContext(),"fontNews","font");
             if (fontStyle.equals(""))
-                savePreferences(smallStyle);
-            // getPreferences();
+                DataPreferences.savePreferences(getApplicationContext(),"fontNews","font",smallStyle);
+
+            isCheckNotification = DataPreferences.getPreferences(getApplicationContext(),"notification","notification");
+            if (isCheckNotification.equals("")) {
+                DataPreferences.savePreferences(getApplicationContext(), "notification", "notification", "on");
+                isCheckNotification = "on";
+            }
+
+            toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
+            if(isCheckNotification.equals("on")){
+                toggleButton.setChecked(true);
+            }else if(isCheckNotification.equals("off")){
+                toggleButton.setChecked(false);
+            }
+
+            toggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(toggleButton.isChecked()){
+                        DataPreferences.savePreferences(getApplicationContext(), "notification", "notification", "on");
+                        isCheckNotification = "on";
+                    }
+                    else {
+                        DataPreferences.savePreferences(getApplicationContext(), "notification", "notification", "off");
+                        isCheckNotification = "off";
+                    }
+                }
+            });
+
         }
         else{
             Toast.makeText(this, "Please check internet", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private String getPreferences() {
-        SharedPreferences pre = getSharedPreferences("fontNews", MODE_PRIVATE);
-        String font = pre.getString("font","");
-        return font;
-    }
-
-    private void savePreferences(String tyle) {
-        SharedPreferences pre = getSharedPreferences("fontNews", MODE_PRIVATE);
-        SharedPreferences.Editor edit = pre.edit();
-        edit.putString("font",tyle);
-        edit.commit();
-
     }
 
     @Override
@@ -112,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_weather){
             startActivity(new Intent(this, WeatherActivity.class));
         }else if(id == R.id.big){
-            savePreferences(bigStyle);
+            DataPreferences.savePreferences(getApplicationContext(),"fontNews","font",bigStyle);
             startActivity(new Intent(this, MainActivity.class));
         }else if(id == R.id.small){
-            savePreferences(smallStyle);
+            DataPreferences.savePreferences(getApplicationContext(),"fontNews","font",smallStyle);
             startActivity(new Intent(this, MainActivity.class));
         }
         drawerLayout.closeDrawer(Gravity.START);

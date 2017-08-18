@@ -1,4 +1,4 @@
-package com.example.truongle.rss;
+package com.example.truongle.rss.FCM;
 
 import android.util.Log;
 

@@ -3,25 +3,21 @@ package com.example.truongle.rss.webView.view;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.truongle.rss.R;
+import com.example.truongle.rss.util.DataPreferences;
 import com.example.truongle.rss.webView.presenter.PresenterLogicWebView;
-import com.example.truongle.rss.webView.view.ViewWebView;
 
 public class WebViewActivity extends AppCompatActivity implements ViewWebView{
 
@@ -53,7 +49,7 @@ public class WebViewActivity extends AppCompatActivity implements ViewWebView{
         webView = (WebView) findViewById(R.id.WebView);
 
         webSettings = webView.getSettings();
-        String zoom = getPreferencesZoom();
+        String zoom = DataPreferences.getPreferences(getApplicationContext(),"zoom","zoom");
         if(!zoom.equals("")){
             currentZoom = Integer.parseInt(zoom);
             webSettings.setTextZoom(currentZoom);
@@ -84,7 +80,7 @@ public class WebViewActivity extends AppCompatActivity implements ViewWebView{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu_webview,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -110,7 +106,7 @@ public class WebViewActivity extends AppCompatActivity implements ViewWebView{
                 currentZoom = currentZoom+10;
                 webSettings.setTextZoom(currentZoom);
                 txtZoom.setText(currentZoom+"");
-                savePreferencesZoom(currentZoom+"");
+                DataPreferences.savePreferences(getApplicationContext(),"fontNews","font",currentZoom+"");
 
             }
         });
@@ -120,21 +116,21 @@ public class WebViewActivity extends AppCompatActivity implements ViewWebView{
                 currentZoom = currentZoom-10;
                 webSettings.setTextZoom(currentZoom);
                 txtZoom.setText(currentZoom+"");
-                savePreferencesZoom(currentZoom+"");
+                DataPreferences.savePreferences(getApplicationContext(),"fontNews","font",currentZoom+"");
             }
         });
     }
-    private String getPreferencesZoom() {
-        SharedPreferences pre = getSharedPreferences("zoom", MODE_PRIVATE);
-        String zoom = pre.getString("zoom","");
-        return zoom;
-    }
-
-    private void savePreferencesZoom(String zoom) {
-        SharedPreferences pre = getSharedPreferences("zoom", MODE_PRIVATE);
-        SharedPreferences.Editor edit = pre.edit();
-        edit.putString("zoom",zoom);
-        edit.commit();
-
-    }
+//    private String getPreferencesZoom() {
+//        SharedPreferences pre = getSharedPreferences("zoom", MODE_PRIVATE);
+//        String zoom = pre.getString("zoom","");
+//        return zoom;
+//    }
+//
+//    private void savePreferencesZoom(String zoom) {
+//        SharedPreferences pre = getSharedPreferences("zoom", MODE_PRIVATE);
+//        SharedPreferences.Editor edit = pre.edit();
+//        edit.putString("zoom",zoom);
+//        edit.commit();
+//
+//    }
 }

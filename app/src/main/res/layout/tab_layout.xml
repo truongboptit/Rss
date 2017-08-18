@@ -23,7 +23,16 @@
     android:text="VnExpress"
     android:textSize="20dp"
     android:textColor="#ff00"/>
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:checked="true"
+            android:text="ToggleNotification" />
     </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

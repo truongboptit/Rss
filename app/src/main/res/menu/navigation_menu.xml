@@ -3,25 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 <item
     android:id="@+id/nav_bookmark"
-    android:title="BookMark"
+    android:title="Các tin đã lưu"
     android:icon="@mipmap/ic_bookmark_black_24dp"
     />
-    <item android:title="Mode View">
+    <item android:title="Chế Độ Xem">
         <menu>
             <item
                 android:id="@+id/big"
                 android:icon="@mipmap/ic_launcher_round"
-                android:title="Big Font" />
+                android:title="Cỡ lớn" />
             <item
                 android:id="@+id/small"
-                android:title="Small Font"
+                android:title="Cỡ nhỏ"
                 android:icon="@mipmap/ic_launcher"/>
         </menu>
 
     </item>
     <item
         android:id="@+id/nav_weather"
-        android:title="Weather"
+        android:title="Thời Tiết"
         android:icon="@drawable/iconweather"
         />
 </menu>

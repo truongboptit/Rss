@@ -1,4 +1,4 @@
-package com.example.truongle.rss;
+package com.example.truongle.rss.FCM;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.truongle.rss.MainActivity;
+import com.example.truongle.rss.util.DataPreferences;
 import com.example.truongle.rss.webView.view.WebViewActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -22,6 +23,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MessagingService";
+    String isNotification;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -32,6 +34,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
         //Calling method to generate notification
+        isNotification = DataPreferences.getPreferences(getApplicationContext(),"notification","notification");
+        if(isNotification.equals("on"))
         sendNotification(remoteMessage.getNotification().getTitle(),
                 remoteMessage.getNotification().getBody(),remoteMessage.getData().get("link"));
     }
